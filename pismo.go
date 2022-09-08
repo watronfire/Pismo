@@ -17,9 +17,9 @@ type PhyloSorResults struct {
 }
 
 func (res PhyloSorResults) Print() {
-	println(res.branchLengthBoth)
 	println(res.branchLengthA)
 	println(res.branchLengthB)
+	println(res.branchLengthBoth)
 }
 
 func (res PhyloSorResults) GetPhylosor() float64 {
