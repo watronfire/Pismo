@@ -21,7 +21,7 @@ func TestPhylosor(t *testing.T) {
 	commATaxa := SliceToMap(commASlice)
 	commBTaxa := SliceToMap(commBSlice)
 
-	got := Phylosor(tree, commATaxa, commBTaxa)
+	got := Phylosor(tree, commATaxa, commBTaxa).GetPhylosor()
 	want := 0.2659961328235229
 	if math.Abs(got-want) > THRESHOLD {
 		t.Errorf("got %f want %f", got, want)
@@ -41,7 +41,7 @@ func TestLargePhylosor(t *testing.T) {
 	commATaxa := SliceToMap(commASlice)
 	commBTaxa := SliceToMap(commBSlice)
 
-	got := Phylosor(tree, commATaxa, commBTaxa)
+	got := Phylosor(tree, commATaxa, commBTaxa).GetPhylosor()
 	want := 0.083859
 	if math.Abs(got-want) > THRESHOLD {
 		t.Errorf("got %f want %f", got, want)

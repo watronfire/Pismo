@@ -10,6 +10,22 @@ import (
 	"os"
 )
 
+type PhyloSorResults struct {
+	branchLengthBoth float64
+	branchLengthA    float64
+	branchLengthB    float64
+}
+
+func (res PhyloSorResults) Print() {
+	println(res.branchLengthBoth)
+	println(res.branchLengthA)
+	println(res.branchLengthB)
+}
+
+func (res PhyloSorResults) GetPhylosor() float64 {
+	return res.branchLengthBoth / ((res.branchLengthA + res.branchLengthB) * 0.5)
+}
+
 func SliceToMap(slice []string) map[string]struct{} {
 	set := make(map[string]struct{}, len(slice))
 	for _, s := range slice {
@@ -64,7 +80,7 @@ func LoadTree(path string) *tree.Tree {
 	return t
 }
 
-func Phylosor(t *tree.Tree, commA, commB map[string]struct{}) float64 {
+func Phylosor(t *tree.Tree, commA, commB map[string]struct{}) PhyloSorResults {
 	blA := 0.0
 	blB := 0.0
 	blBoth := 0.0
@@ -98,7 +114,11 @@ func Phylosor(t *tree.Tree, commA, commB map[string]struct{}) float64 {
 			}
 		}
 	}
-	return blBoth / (0.5 * (blA + blB))
+	return PhyloSorResults{
+		branchLengthBoth: blBoth,
+		branchLengthA:    blA,
+		branchLengthB:    blB,
+	}
 }
 
 func AncestorIter(node *tree.Node) <-chan *tree.Node {
@@ -166,6 +186,6 @@ func main() {
 	commATaxa := SliceToMap(commASlice)
 	commBTaxa := SliceToMap(commBSlice)
 
-	got := Phylosor(t, commATaxa, commBTaxa)
-	println(got)
+	results := Phylosor(t, commATaxa, commBTaxa)
+	results.Print()
 }
